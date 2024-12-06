@@ -398,3 +398,622 @@ https://camo.githubusercontent.com/1a9c50a3aef704aa0eeb7be611d17ce6724c1f455b985
 
 sgpa calculator
 https://camo.githubusercontent.com/c19b94cfb82837527375a48e323290de892e7da478325595853909595b36eb29/68747470733a2f2f6b6f6d617265762e636f6d2f67687076632f3f757365726e616d653d6b6969746373657367706163616c63756c61746f72266c6162656c3d50726f66696c65253230766965777326636f6c6f723d306537356236267374796c653d666c6174
+
+
+
+
+
+
+
+
+
+    <!-- Modal -->
+    <div class="modal" id="myModal">
+        <div class="modal-dialog pdfModalDialog" role="document">
+            <div class="modal-content" style="height: 95vh;">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <span class="modal-title text-center" id="modalTitle">Modal Heading</span>
+                    <button type="button" class="pdfRefresh"><i class="bi bi-arrow-clockwise"></i></button>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <!-- <p class="text-center">If you don't see your preferred content then you can close this popup and click the preview button again.</p> -->
+                    <!-- badges -->
+                    <span
+                        class="badge d-flex align-items-center p-1 pe-2 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-pill">
+                        <a href="https://bibekchandsah.github.io/bibek"><img class="rounded-circle me-1 logoImage"
+                                width="26" height="26" src="#" alt="logo">😜</a></span>
+                    <iframe src="" width="100%" height="100%" id="myframe"></iframe>
+                </div>
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary btn-sm download-file toast-trigger" id="modalDownload"
+                        onclick="downloadFiles(['try'], this)">Download</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+here is the code to show pdf in modal "
+<!-- Modal -->
+    <div class="modal" id="myModal">
+        <div class="modal-dialog pdfModalDialog" role="document">
+            <div class="modal-content" style="height: 95vh;">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <span class="modal-title text-center" id="modalTitle">Modal Heading</span>
+                    <button type="button" class="pdfRefresh"><i class="bi bi-arrow-clockwise"></i></button>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <!-- <p class="text-center">If you don't see your preferred content then you can close this popup and click the preview button again.</p> -->
+                    <!-- badges -->
+                    <span class="badge d-flex align-items-center p-1 pe-2 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-pill">
+                        <a href="https://bibekchandsah.github.io/bibek"><img class="rounded-circle me-1 logoImage" width="26" height="26" src="#" alt="logo">😜</a></span>
+                    <iframe src="" width="100%" height="100%" id="myframe"></iframe>
+                </div>
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary btn-sm download-file toast-trigger" id="modalDownload" onclick="downloadFiles(['try'], this)">Download</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+const fileUrls2ndPYQs = {
+    // chemistry
+    "Chemistry_PYQs_2013_Spring_End_Semester": ["https://github.com/bibekchandsah/files/blob/main/trash/bin/download/KIIT%202022/B.Tech%202nd%20semester/Chemistry/PYQs/2013%20Spring%20End%20Semester.pdf"],
+
+    "Chemistry_PYQs_2014_Spring_Mid_Semester": ["https://github.com/bibekchandsah/files/blob/main/trash/bin/download/KIIT%202022/B.Tech%202nd%20semester/Chemistry/PYQs/2014%20Spring%20Mid%20Semester.pdf"],
+
+};
+
+
+// pdf preview
+document.addEventListener("DOMContentLoaded", function () {
+    var buttons = document.querySelectorAll(".clickLink");
+
+    buttons.forEach(function (button) {
+        button.addEventListener("click", function () {
+            var linkKey = this.getAttribute('data-id');
+            let link;
+            // if (fileUrls[linkKey]) {
+            //     link = fileUrls[linkKey][0];}
+            if (fileUrls2ndPYQs[linkKey]) {
+                link = fileUrls2ndPYQs[linkKey][0];
+            } else {
+                console.error("URL not found for key: " + linkKey);
+                return;
+            }
+
+            // Check if the URL is from GitHub and contains "blob"
+            if (link.includes("github.com") && link.includes("blob")) {
+                // Replace "blob" with "raw"
+                link = link.replace("blob", "raw");
+            }
+
+            // var googleDocsURL = "https://docs.google.com/gview?url=" + encodeURIComponent(link) + "&embedded=true";
+            // document.getElementById("myframe").src = googleDocsURL;
+
+            // If the URL is not from GitHub, keep it unchanged
+            var googleDocsURL;
+            if (link.includes("github.com")) {
+                googleDocsURL = "https://docs.google.com/gview?url=" + encodeURIComponent(link) + "&embedded=true";
+            } else {
+                googleDocsURL = link;
+            }
+            // document.getElementById("myframe").src = googleDocsURL;
+
+            // Clear the iframe content before setting the new source
+            var iframe = document.getElementById("myframe");
+            iframe.src = ''; // Clear iframe content to avoid showing old content
+            iframe.src = googleDocsURL; // Set the new content
+
+
+
+            // Set modal title
+            var modalTitle = this.getAttribute('data-id');
+            document.getElementById("modalTitle").innerText = modalTitle;
+
+            // Update download button text
+            var downloadButton = document.getElementById("modalDownload");
+            downloadButton.textContent = "Download";
+            downloadButton.setAttribute("onclick", "downloadFiles(['" + linkKey + "'], this)");
+
+            // Store the current link for refresh purpose
+            var refreshButton = document.querySelector(".pdfRefresh");
+            refreshButton.setAttribute("data-link", googleDocsURL); // Set data-link to the refresh button
+        });
+    });
+
+    // Handle the .pdfRefresh button click
+    var refreshButton = document.querySelector(".pdfRefresh");
+    refreshButton.addEventListener("click", function () {
+        var googleDocsURL = this.getAttribute("data-link");
+        if (googleDocsURL) {
+            document.getElementById("myframe").src = googleDocsURL;
+        } else {
+            console.error("No URL found to refresh.");
+        }
+    });
+});
+
+
+// store the subject data
+// Initialize an empty JSON object to store the data
+let subjectData = {};
+// Function to update the JSON object with new data
+function updateSubjectData(...entries) {
+    // Loop through each entry in the arguments
+    for (let i = 0; i < entries.length; i += 8) {
+        let subject = entries[i];
+        let year = entries[i + 1];
+        let exam = entries[i + 2];
+        let question = entries[i + 3];
+        let questionValue = entries[i + 4];
+        let solution = entries[i + 5];
+        let solutionStatus = entries[i + 6];
+        let solutionValue = entries[i + 7];
+        // Check if the subject already exists in the JSON object
+        if (!subjectData.hasOwnProperty(subject)) {
+            // If not, initialize it with an empty array
+            subjectData[subject] = [];
+        }
+        // Push new data to the array corresponding to the subject
+        subjectData[subject].push({
+            "year": year,
+            "exam": exam,
+            "question": question,
+            "question-value": questionValue,
+            "solution": solution,
+            "solution-status": solutionStatus,
+            "solution-value": solutionValue
+        });
+    }
+}
+// Clear the existing data in subjectData (assuming it's an object)
+subjectData = {};
+// Example usage:
+updateSubjectData(
+
+    // Chemistry
+    "Chemistry", 2013, "End Semester", "Spring End Semester", "Chemistry_PYQs_2013_Spring_End_Semester", "", "Not Available", "Chemistry_PYQs_2013_Spring_End_Semester",
+    "Chemistry", 2014, "Mid Semester", "Spring Mid Semester", "Chemistry_PYQs_2014_Spring_Mid_Semester", "", "Not Available", "Chemistry_PYQs_2014_Spring_Mid_Semester",
+
+);
+// Call the function to generate table rows based on existing subject data
+generateTableRows();
+
+
+
+
+// insert the data automatically in the table row  for PYQs
+// Clear the existing data in subjectData (assuming it's an object)
+subjectData = {};
+// Function to generate HTML table rows based on subject data
+function generateTableRows() {
+    // Get the table body element where rows will be appended
+    let tableBody = document.querySelector('#dataTable tbody');
+
+    // Clear existing rows if any
+    // tableBody.innerHTML = '';
+
+    // Loop through each subject in the subjectData object
+    for (let subject in subjectData) {
+        // Loop through each entry for the current subject
+        subjectData[subject].forEach(entry => {
+            // Create a new table row
+            let newRow = document.createElement('tr');
+
+            // Set data attributes for the row
+            newRow.setAttribute('data-subject', subject);
+            newRow.setAttribute('data-year', entry.year);
+            newRow.setAttribute('data-exam', entry.exam);
+            newRow.setAttribute('data-paper', entry['solution']);
+
+            // Fill in the row with data
+            newRow.innerHTML = `
+                <th scope="row">${subject}</th>
+                <td>${entry.year}</td>
+                <td>${entry.exam}</td>
+                <td class="download_section align-middle">${entry.question} 
+                    <div class="btn-group" role="group" aria-label="Download Section">
+                        <button type="button" class="clickLink btn btn-primary btn-sm modalToast-trigger" data-toggle="modal" href="#myModal" data-id="${entry['question-value']}">Preview</button>
+                        <button type="button" class="btn btn-primary btn-sm download-file toast-trigger" onclick="downloadFiles(['${entry['question-value']}'], this)">Download</button>
+                    </div>
+                </td>
+                
+                <td class="solution_sections text-center">
+                    <span>${entry['solution-status']}</span>
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <button type="button" class="clickLink btn btn-primary btn-sm modalToast-trigger" data-toggle="modal" href="#myModal" data-id="${entry['solution-value']}">Preview</button>
+                        <button type="button" class="btn btn-primary btn-sm download-file toast-trigger" onclick="downloadFiles(['${entry['solution-value']}'], this)">Download</button>
+                    </div>
+                </td>
+            `;
+
+            // Append the new row to the table body
+            tableBody.appendChild(newRow);
+        });
+    }
+}
+
+// Call the function to generate table rows based on existing subject data
+generateTableRows();
+
+
+
+"
+
+
+and i want to add one more modal "
+<!-- Modal for pyqs-->
+    <div class="modal" id="myModal">
+        <div class="modal-dialog pdfModalDialog modal-dialog-centered">
+            <div class="modal-content" style="height: 95vh;">
+                <div class="modal-header"></div>
+                <button type="button" class="pdfRefresh"><i class="bi bi-arrow-clockwise"></i></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="modalContainer">
+                        <!-- modal 1 -->
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <span class="modal-title text-center" id="modalTitle">Modal Heading</span>
+                                    <button type="button" class="pdfRefresh"><i
+                                            class="bi bi-arrow-clockwise"></i></button>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <span
+                                        class="badge d-flex align-items-center p-1 pe-2 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-pill">
+                                        <a href="https://bibekchandsah.github.io/bibek"><img
+                                                class="rounded-circle me-1 logoImage" width="26" height="26" src="#"
+                                                alt="logo">😜</a></span>
+                                    <iframe src="" width="100%" height="100%" id="myframe"></iframe>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary btn-sm download-file toast-trigger"
+                                        id="modalDownload" onclick="downloadFiles(['try'], this)">Download</button>
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- modal 2 -->
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <span class="modal-title text-center" id="modalTitle">Modal Heading</span>
+                                    <button type="button" class="pdfRefresh"><i
+                                            class="bi bi-arrow-clockwise"></i></button>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <span
+                                        class="badge d-flex align-items-center p-1 pe-2 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-pill">
+                                        <a href="https://bibekchandsah.github.io/bibek"><img
+                                                class="rounded-circle me-1 logoImage" width="26" height="26" src="#"
+                                                alt="logo">😜</a></span>
+                                    <iframe src="" width="100%" height="100%" id="myframe"></iframe>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary btn-sm download-file toast-trigger"
+                                        id="modalDownload" onclick="downloadFiles(['try'], this)">Download</button>
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+"
+
+and update the generateTableRows by adding one button .questionWithSolution
+"
+subjectData = {};
+// Function to generate HTML table rows based on subject data
+function generateTableRows() {
+    // Get the table body element where rows will be appended
+    let tableBody = document.querySelector('#dataTable tbody');
+
+    // Clear existing rows if any
+    // tableBody.innerHTML = '';
+
+    // Loop through each subject in the subjectData object
+    for (let subject in subjectData) {
+        // Loop through each entry for the current subject
+        subjectData[subject].forEach(entry => {
+            // Create a new table row
+            let newRow = document.createElement('tr');
+
+            // Set data attributes for the row
+            newRow.setAttribute('data-subject', subject);
+            newRow.setAttribute('data-year', entry.year);
+            newRow.setAttribute('data-exam', entry.exam);
+            newRow.setAttribute('data-paper', entry['solution']);
+
+            // Fill in the row with data
+            newRow.innerHTML = `
+                <th scope="row">${subject}</th>
+                <td>${entry.year}</td>
+                <td>${entry.exam}</td>
+                <td class="download_section align-middle">${entry.question} 
+                    <div class="btn-group" role="group" aria-label="Download Section">
+                        <button type="button" class="clickLink btn btn-primary btn-sm modalToast-trigger" data-toggle="modal" href="#myModal" data-id="${entry['question-value']}">Preview</button>
+                        <button type="button" class="btn btn-primary btn-sm download-file toast-trigger" onclick="downloadFiles(['${entry['question-value']}'], this)">Download</button>
+                    </div>
+                </td>
+                
+                <td class="solution_sections text-center">
+                    <span>${entry['solution-status']}</span>
+                    <button type="button" class="questionWithSolution modalToast-trigger" data-toggle="modal" href="#myModal" data-id="${entry['question-value']}" data-id="${entry['solution-value']}"><i class="bi bi-window-split"></i></button>
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <button type="button" class="clickLink btn btn-primary btn-sm modalToast-trigger" data-toggle="modal" href="#myModal" data-id="${entry['solution-value']}">Preview</button>
+                        <button type="button" class="btn btn-primary btn-sm download-file toast-trigger" onclick="downloadFiles(['${entry['solution-value']}'], this)">Download</button>
+                    </div>
+                </td>
+            `;
+
+            // Append the new row to the table body
+            tableBody.appendChild(newRow);
+        });
+    }
+}
+
+// Call the function to generate table rows based on existing subject data
+generateTableRows();
+"
+
+i want that when i press the .questionWithSolution then "data-id="${entry['question-value']}" should open in 1 modal and "data-id="${entry['solution-value']}" should open in 2nd modal
+
+
+
+
+
+
+.pyqModalDialog {
+    height: 94% !important;
+    max-width: 95% !important;
+}
+
+.pyqmodal-body {
+    padding: 0px !important;
+    margin: 0px !important;
+}
+
+.pyqmodal-content {
+    height: 77vh;
+    width: 46vw;
+}
+
+.pyqmodal .modal-content {
+    /* position: fixed; */
+    /* height: 100%; */
+    /* height: 100% !important; */
+    /* position: relative; */
+}
+
+.pyqmodal-body .row {
+    position: fixed;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+
+
+@media (max-width: 768px) {
+    /* .modal.pyqmodal {
+        --bs-modal-margin: 1.75rem;
+        --bs-modal-box-shadow: var(--bs-box-shadow);
+        border: 5px solid red;
+    } */
+
+    .pyqmodal-content {
+        height: 45vh;
+        width: 85vw;
+    }
+
+    .pyqmodal-body .row {
+        left: -11px;
+        /* position: static; */
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// dyanmic url
+// Utility to get query parameter by name for notes
+// Utility function to get query parameter by name
+// Utility to get query parameter by name
+function getQueryParameter(name) {
+    const params = new URLSearchParams(window.location.search);
+    return params.get(name);
+}
+
+// Function to initialize dropdowns and input fields based on URL parameters
+function initializeNoteFilters() {
+    const filters = document.querySelectorAll('.noteFilter, #noteTopicInput');
+
+    filters.forEach(filter => {
+        const paramName = filter.id.replace('Input', '').replace('Select', '').toLowerCase(); // e.g., "subject" or "noteTopic"
+        const paramValue = getQueryParameter(paramName);
+        if (paramValue) {
+            filter.value = paramValue;
+        }
+    });
+
+    filterNoteRows(); // Apply filtering on page load
+}
+
+// Function to filter table rows based on filters
+function filterNoteRows() {
+    const filters = document.querySelectorAll('.noteFilter, #noteTopicInput');
+    const rows = document.querySelectorAll('tbody tr');
+
+    rows.forEach(row => {
+        let shouldShow = true;
+
+        filters.forEach(filter => {
+            const paramName = filter.id.replace('Input', '').replace('Select', '').toLowerCase(); // e.g., "subject" or "noteTopic"
+            const filterValue = filter.value.toLowerCase();
+            const rowValue = row.getAttribute(`data-${paramName}`)?.toLowerCase() || '';
+
+            // For topic, check if the text is contained within the row value
+            if (filter.id === 'noteTopicInput') {
+                if (filterValue && !rowValue.includes(filterValue)) {
+                    shouldShow = false;
+                }
+            } else {
+                // For dropdowns, exact match is required
+                if (filterValue && filterValue !== rowValue) {
+                    shouldShow = false;
+                }
+            }
+        });
+
+        row.style.display = shouldShow ? '' : 'none';
+    });
+}
+
+// Add event listeners to dropdowns and input field
+const noteFilters = document.querySelectorAll('.noteFilter, #noteTopicInput');
+
+noteFilters.forEach(filter => {
+    filter.addEventListener('input', () => {
+        const paramName = filter.id.replace('Input', '').replace('Select', '').toLowerCase(); // e.g., "subject" or "noteTopic"
+        setQueryParameter(paramName, filter.value); // Update URL dynamically
+        filterNoteRows(); // Apply filtering
+    });
+});
+
+// Utility to update query parameter in URL
+function setQueryParameter(key, value) {
+    const url = new URL(window.location);
+    if (value) {
+        url.searchParams.set(key, value);
+    } else {
+        url.searchParams.delete(key);
+    }
+    history.pushState({}, '', url); // Update URL dynamically
+}
+
+// Handle Reset button functionality
+const noteResetButton = document.getElementById('noteResetButton');
+if (noteResetButton) {
+    document.getElementById('noteResetButton').addEventListener('click', () => {
+        history.pushState({}, '', window.location.pathname); // Clear all query parameters
+        noteFilters.forEach(filter => filter.value = ''); // Reset filters
+        filterNoteRows(); // Show all rows
+    });
+}
+
+// Initialize filters on page load
+window.addEventListener('DOMContentLoaded', initializeNoteFilters);
+
+
+
+
+// dynamic url
+// Utility to get query parameter by name for videos
+// Utility function to get query parameter by name
+function getQueryParameter(name) {
+    const params = new URLSearchParams(window.location.search);
+    return params.get(name);
+}
+
+// Function to filter the videoContainer items
+function filterVideoContainer() {
+    const subjectFilter = getQueryParameter('subject'); // Get the 'subject' query parameter
+    const items = document.querySelectorAll('.videoContainer .itemBox');
+
+    items.forEach(item => {
+        const itemClass = item.classList.contains(subjectFilter); // Check if the item's class matches the filter
+        if (subjectFilter && subjectFilter !== "Reset") {
+            item.style.display = itemClass ? "block" : "none"; // Show or hide based on filter
+        } else {
+            item.style.display = "block"; // Show all items if no filter or Reset
+        }
+    });
+}
+
+// Function to update URL and filter items dynamically on button click
+function setupFilterButtons() {
+    const buttons = document.querySelectorAll('.toolBadge .filter');
+
+    buttons.forEach(button => {
+        button.addEventListener('click', () => {
+            const filterValue = button.getAttribute('data-filter');
+            if (filterValue === "Reset") {
+                history.pushState({}, "", window.location.pathname); // Clear URL query parameters
+            } else {
+                const url = new URL(window.location);
+                url.searchParams.set('subject', filterValue); // Set the 'subject' query parameter
+                history.pushState({}, "", url);
+            }
+
+            filterVideoContainer(); // Apply the filtering
+        });
+    });
+}
+
+// Initialize filtering on page load
+window.addEventListener('DOMContentLoaded', () => {
+    filterVideoContainer(); // Apply filters based on URL query parameters
+    setupFilterButtons();   // Add event listeners to filter buttons
+});

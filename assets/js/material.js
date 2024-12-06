@@ -681,3 +681,226 @@ document.addEventListener('keydown', function (event) {
         }
     }
 });
+
+
+
+
+
+// --------- dynamic url ---------
+// Utility functions (global to avoid redefinition)
+function getQueryParameter(name) {
+    const params = new URLSearchParams(window.location.search);
+    return params.get(name);
+}
+
+function setQueryParameter(key, value) {
+    const url = new URL(window.location);
+    if (value) {
+        url.searchParams.set(key, value);
+    } else {
+        url.searchParams.delete(key);
+    }
+    history.pushState({}, '', url); // Update URL dynamically
+}
+
+// Dynamic URL for Notes
+const dynamicUrlNotes = document.querySelectorAll('.noteFilter, #noteTopicInput');
+if (dynamicUrlNotes.length > 0) {
+    function initializeNoteFilters() {
+        const filters = document.querySelectorAll('.noteFilter, #noteTopicInput');
+        filters.forEach(filter => {
+            const paramName = filter.id.replace('Input', '').replace('Select', '').toLowerCase();
+            const paramValue = getQueryParameter(paramName);
+            if (paramValue) {
+                filter.value = paramValue;
+            }
+        });
+        filterNoteRows(); // Apply filtering on page load
+    }
+
+    function filterNoteRows() {
+        const filters = document.querySelectorAll('.noteFilter, #noteTopicInput');
+        const rows = document.querySelectorAll('tbody tr');
+
+        rows.forEach(row => {
+            let shouldShow = true;
+
+            filters.forEach(filter => {
+                const paramName = filter.id.replace('Input', '').replace('Select', '').toLowerCase();
+                const filterValue = filter.value.toLowerCase();
+                const rowValue = row.getAttribute(`data-${paramName}`)?.toLowerCase() || '';
+
+                if (filter.id === 'noteTopicInput') {
+                    if (filterValue && !rowValue.includes(filterValue)) {
+                        shouldShow = false;
+                    }
+                } else {
+                    if (filterValue && filterValue !== rowValue) {
+                        shouldShow = false;
+                    }
+                }
+            });
+
+            row.style.display = shouldShow ? '' : 'none';
+        });
+    }
+
+    document.querySelectorAll('.noteFilter, #noteTopicInput').forEach(filter => {
+        filter.addEventListener('input', () => {
+            const paramName = filter.id.replace('Input', '').replace('Select', '').toLowerCase();
+            setQueryParameter(paramName, filter.value);
+            filterNoteRows();
+        });
+    });
+
+    document.getElementById('noteResetButton')?.addEventListener('click', () => {
+        history.pushState({}, '', window.location.pathname);
+        document.querySelectorAll('.noteFilter, #noteTopicInput').forEach(filter => (filter.value = ''));
+        filterNoteRows();
+    });
+
+    window.addEventListener('DOMContentLoaded', initializeNoteFilters);
+}
+
+// Dynamic URL for Pyqs
+const dynamicUrlPyqs = document.querySelectorAll('.filter');
+if (dynamicUrlPyqs.length > 0) {
+    function initializePyqsFilters() {
+        const filters = document.querySelectorAll('.filter');
+        filters.forEach(filter => {
+            const paramValue = getQueryParameter(filter.id.replace('Select', '').toLowerCase());
+            if (paramValue) {
+                filter.value = paramValue;
+            }
+        });
+        filterPyqsRows(); // Apply filtering on page load
+    }
+
+    function filterPyqsRows() {
+        const filters = document.querySelectorAll('.filter');
+        const rows = document.querySelectorAll('tbody tr');
+
+        rows.forEach(row => {
+            let shouldShow = true;
+
+            filters.forEach(filter => {
+                const paramName = filter.id.replace('Select', '').toLowerCase();
+                const filterValue = filter.value.toLowerCase();
+                const rowValue = row.getAttribute(`data-${paramName}`)?.toLowerCase() || '';
+
+                if (filterValue && filterValue !== rowValue) {
+                    shouldShow = false;
+                }
+            });
+
+            row.style.display = shouldShow ? '' : 'none';
+        });
+    }
+
+    document.querySelectorAll('.filter').forEach(filter => {
+        filter.addEventListener('change', () => {
+            const paramName = filter.id.replace('Select', '').toLowerCase();
+            setQueryParameter(paramName, filter.value);
+            filterPyqsRows();
+        });
+    });
+
+    document.getElementById('resetButton')?.addEventListener('click', () => {
+        history.pushState({}, '', window.location.pathname);
+        document.querySelectorAll('.filter').forEach(filter => (filter.value = ''));
+        filterPyqsRows();
+    });
+
+    window.addEventListener('DOMContentLoaded', initializePyqsFilters);
+}
+
+
+// --------- dynamic url for videos ---------
+// const dynamicUrlVideos = document.querySelectorAll('.videoContainer .itemBox');
+// if (dynamicUrlVideos) {
+//     // Function to filter the videoContainer items
+//     function filterVideoContainer() {
+//         const subjectFilter = getQueryParameter('subject'); // Get the 'subject' query parameter
+//         const items = document.querySelectorAll('.videoContainer .itemBox');
+//         items.forEach(item => {
+//             const itemClass = item.classList.contains(subjectFilter); // Check if the item's class matches the filter
+//             if (subjectFilter && subjectFilter !== "Reset") {
+//                 item.style.display = itemClass ? "block" : "none"; // Show or hide based on filter
+//             } else {
+//                 item.style.display = "block"; // Show all items if no filter or Reset
+//             }
+//         });
+//     }
+
+//     // Function to update URL and filter items dynamically on button click
+//     function setupFilterButtons() {
+//         const buttons = document.querySelectorAll('.toolBadge .filter');
+//         buttons.forEach(button => {
+//             button.addEventListener('click', () => {
+//                 const filterValue = button.getAttribute('data-filter');
+//                 if (filterValue === "Reset") {
+//                     history.pushState({}, "", window.location.pathname); // Clear URL query parameters
+//                 } else {
+//                     const url = new URL(window.location);
+//                     url.searchParams.set('subject', filterValue); // Set the 'subject' query parameter
+//                     history.pushState({}, "", url);
+//                 }
+//                 filterVideoContainer(); // Apply the filtering
+//             });
+//         });
+//     }
+
+//     // Initialize filtering on page load
+//     window.addEventListener('DOMContentLoaded', () => {
+//         filterVideoContainer(); // Apply filters based on URL query parameters
+//         setupFilterButtons();   // Add event listeners to filter buttons
+//     });
+// }
+
+
+
+
+
+// --------- dynamic url for books ---------
+// const dynamicUrlBooks = document.querySelectorAll('.BookContainer .itemBox');
+// if (dynamicUrlBooks) {
+//     // Function to filter the videoContainer items
+//     function filterBookContainer() {
+//         const semesterFilter = getQueryParameter('semester'); // Get the 'semester' query parameter
+//         const items = document.querySelectorAll('.BookContainer .itemBox');
+//         items.forEach(item => {
+//             const itemClass = item.classList.contains(semesterFilter); // Check if the item's class matches the filter
+//             if (semesterFilter && semesterFilter !== "Reset") {
+//                 item.style.display = itemClass ? "block" : "none"; // Show or hide based on filter
+//             } else {
+//                 item.style.display = "block"; // Show all items if no filter or Reset
+//             }
+//         });
+//     }
+
+//     // Function to update URL and filter items dynamically on button click
+//     function setupBookFilterButtons() {
+//         const buttons = document.querySelectorAll('.toolBadge .filter');
+//         buttons.forEach(button => {
+//             button.addEventListener('click', () => {
+//                 const filterValue = button.getAttribute('data-filter');
+//                 if (filterValue === "Reset") {
+//                     history.pushState({}, "", window.location.pathname); // Clear URL query parameters
+//                 } else {
+//                     const url = new URL(window.location);
+//                     url.searchParams.set('semester', filterValue); // Set the 'semester' query parameter
+//                     history.pushState({}, "", url);
+//                 }
+//                 filterBookContainer(); // Apply the filtering
+//             });
+//         });
+//     }
+
+//     // Initialize filtering on page load
+//     window.addEventListener('DOMContentLoaded', () => {
+//         if (dynamicUrlBooks) {
+//             filterBookContainer(); // Apply filters based on URL query parameters
+//             setupBookFilterButtons();   // Add event listeners to filter buttons
+//         }
+//     });
+// }
