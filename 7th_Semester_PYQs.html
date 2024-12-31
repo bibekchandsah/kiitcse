@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>6th Semester Videos</title>
+    <title>7th Semester PYQs</title>
     <!-- favicon -->
     <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
@@ -51,6 +51,8 @@
     <!-- enabling this doesn't let nav dropdown works fine -->
     <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <!-- for zipping the file & folder -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
     <!-- Google Fonts Link For Icons chatbot -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,1,0" />
@@ -59,8 +61,6 @@
     <!-- ====================animate in scroll Jsr (https://michalsnik.github.io/aos/)==================== -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <!-- animation on video -->
-    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <!-- style sheet -->
     <link href="assets/css/style.css" rel="stylesheet">
     <link href="assets/css/chatbot.css" rel="stylesheet">
@@ -210,36 +210,137 @@
             <div class="theme-buttons-container" id="theme-buttons-container-linksaver"></div>
         </div>
     </div>
-    <!-- <=====buttons=====> -->
-    <div class="d-flex gap-2 justify-content-center py-5 toolBadge mt-5">
-        <button class="filter btn btn-primary rounded-pill active" data-filter="Reset" type="reset" value="Reset">Reset</button>
-        <button class="filter btn btn-primary rounded-pill" data-filter="Machine_Learning" type="button" title="Machine Learning">Machine Learning</button>
-        <button class="filter btn btn-primary rounded-pill" data-filter="AI" type="button" title="Artificial Intelligence">AI</button>
-        <button class="filter btn btn-primary rounded-pill" data-filter="Cloud_Computing" type="button" title="Cloud Computing">Cloud Computing</button>
-        <button class="filter btn btn-primary rounded-pill" data-filter="SPM" type="button" title="Software Project Management">SPM</button>
-        <button class="filter btn btn-primary rounded-pill" data-filter="HPC" type="button" title="Human Resource Value">HPC</button>
-    </div>
-    <!-- <=====youtube video=====> -->
-    <div data-aos="fade-up" class="videoContainer row row-cols-1 row-cols-md-4 g-4 mb-5">
-        <!-- IOT -->
-        <!-- <div class="col itemBox IOT">
-            <div class="card h-100">
-                <a href="https://www.youtube.com/playlist?list=PLdaj4mrS1BKBKic8N5CcipttgvfHiX_vg">
-                    <img src="https://img.youtube.com/vi/EteKRIzju90/maxresdefault.jpg" class="card-img-top" alt="Internet of Things by Bindu Agarwalla"></a>
-                <div class="card-body">
-                    <a class="videoHeading" href="https://www.youtube.com/playlist?list=PLdaj4mrS1BKBKic8N5CcipttgvfHiX_vg">
-                        <h5 class="card-title">Internet of Things</h5>
-                    </a>
-                    <p class="card-text">Internet of Things by <b> Bindu Agarwalla </b></p>
+    <!-- Modal -->
+    <div class="modal" id="myModal">
+        <div class="modal-dialog pdfModalDialog" role="document">
+            <div class="modal-content" style="height: 95vh;">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <span class="modal-title text-center" id="modalTitle">Modal Heading</span>
+                    <button type="button" class="pdfRefresh"><i class="bi bi-arrow-clockwise"></i></button>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <!-- <p class="text-center">If you don't see your preferred content then you can close this popup and click the preview button again.</p> -->
+                    <!-- badges -->
+                    <span class="badge d-flex align-items-center p-1 pe-2 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-pill">
+                        <a href="https://bibekchandsah.github.io/bibek"><img class="rounded-circle me-1 logoImage" width="26" height="26" src="#" alt="logo">😜</a></span>
+                    <iframe src="" width="100%" height="100%" id="myframe"></iframe>
+                </div>
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary btn-sm download-file toast-trigger" id="modalDownload" onclick="downloadFiles(['try'], this)">Download</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                 </div>
             </div>
-        </div> -->
-        <!-- Compiler_Design -->
-        <!-- Cloud_Computing -->
-        <!-- Data_Analysis -->
-        <!-- SPM -->
-        <!-- NLP -->
-        <!-- Machine_Learning -->
+        </div>
+    </div>
+    <!-- modal preview toast -->
+    <div class="toast-container position-absolute top-0 end-0 p-3" id="modalToast">
+        <div class="toast fade" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <img src="#" width="20px" height="20px" class="rounded me-2 logoImage" alt="logo">
+                <strong class="me-auto">KIIT CSE</strong>
+                <!-- <small>11 mins ago</small> -->
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body"> If you don't see your preferred content then you can close this popup and click the preview button again </div>
+        </div>
+    </div>
+    <!-- download status Toast -->
+    <div class="toast-container position-absolute top-0 end-0 p-3" id="downloadToast">
+        <div class="toast fade" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <img src="#" width="20px" height="20px" class="rounded me-2 logoImage" alt="logo">
+                <strong class="me-auto">KIIT CSE</strong>
+                <small>Just now</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body"> Your download has been started! </div>
+        </div>
+    </div>
+    <!-- drop down -->
+    <form class="row gy-5 gx-5 mt-5 align-items-center justify-content-center">
+        <div class="col-auto">
+            <label class="visually-hidden" for="subjectSelect">Subject</label>
+            <select class="form-select filter" id="subjectSelect">
+                <option value="">Choose Subject</option>
+                <option title="Internet of Things" value="IOT">IOT</option>
+                <option title="Data Analysis" value="DA">Data Analysis</option>
+                <option title="Natural Language Processing" value="NLP">NLP</option>
+            </select>
+        </div>
+        <div class="col-auto">
+            <label class="visually-hidden" for="yearSelect">Year</label>
+            <select class="form-select filter" id="yearSelect">
+                <option value="">Choose Year</option>
+                <option value="2024">2024</option>
+                <option value="2023">2023</option>
+                <option value="2022">2022</option>
+                <option value="2021">2021</option>
+                <option value="2020">2020</option>
+                <option value="2019">2019</option>
+                <option value="2018">2018</option>
+                <option value="2017">2017</option>
+                <option value="2016">2016</option>
+                <option value="2015">2015</option>
+            </select>
+        </div>
+        <div class="col-auto">
+            <label class="visually-hidden" for="examSelect">Exam</label>
+            <select class="form-select filter" id="examSelect">
+                <option value="">Choose Exam</option>
+                <option value="Mid Semester">Mid Semester</option>
+                <option value="End Semester">End Semester</option>
+            </select>
+        </div>
+        <div class="col-auto">
+            <label class="visually-hidden" for="paperSelect">Paper</label>
+            <select class="form-select filter" id="paperSelect">
+                <option value="">Choose Paper</option>
+                <option value="Solution">Solution</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+        <div class="col-auto">
+            <label class="visually-hidden" for="resetbutton">Reset</label>
+            <input class="btn btn-primary" type="reset" value="Reset" id="resetButton">
+        </div>
+    </form>
+    <!--  Table -->
+    <div data-aos="fade-up" class="table-responsive mt-4">
+        <table id="dataTable" class="table table-bordered table-hover caption-top align-middle">
+            <caption>CSE 6th Semester PYQs</caption>
+            <thead>
+                <tr>
+                    <th scope="col">Subject</th>
+                    <th scope="col">Year</th>
+                    <th scope="col">Exam</th>
+                    <th scope="col">Questions</th>
+                    <th scope="col">Solutions</th>
+                </tr>
+            </thead>
+            <tbody class="table-group-divider">
+                <!-- <tr data-subject="dbms" data-year="2021" data-exam="mid" data-paper="solution">
+                    <th scope="row">DBMS</th>
+                    <td>2021</td>
+                    <td>Mid Semester</td>
+                    <td class="download_section">Spring Mid Semester<div class="btn-group" role="group" aria-label="Basic example">
+                            <button type="button" class="btn btn-primary btn-sm">Preview</button>
+                            <button type="button" class="btn btn-primary btn-sm">Download</button>
+                        </div>
+                    </td>
+                    <td class="solution_sections">
+                        <span>Available</span>
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            <button type="button" class="btn btn-primary btn-sm">Preview</button>
+                            <button type="button" class="btn btn-primary btn-sm">Download</button>
+                        </div>
+                    </td>
+                </tr> -->
+            </tbody>
+        </table>
     </div>
     <!-- footer -->
     <div data-aos="fade-up" class="container border-top">
@@ -342,27 +443,12 @@
     <a anim="ripple" href="#" class="scrollup" id="scroll-up"><button type="button" class="btn btn-outline-primary"><i class="fa fa-arrow-up" aria-hidden="true"></i></button></a>
     <!-- script file -->
     <script src="assets/js/script.js"></script>
+    <script src="assets/js/material.js"></script>
     <script src="assets/js/chatbot.js"></script>
     <script src="assets/js/calendar.js"></script>
-    <script src="assets/js/material.js"></script>
+    <script src="assets/js/functions.js"></script>
+    <script src="assets/js/fileUrls7thPYQs.js"></script>
     <script>
-        // Call the function to update video data
-        updateVideoData(
-            // Cloud_Computing
-            // "Cloud_Computing", "Cloud Computing", "youtube", "", "Dream",
-
-            // Data_Analysis
-            // "Data_Analysis", "Data Analysis", "youtube", "", "Dream",
-
-            // NLP 
-            // "NLP", "Natural Language Processing", "youtube", "", "Dream",
-
-
-            // Add more video data here
-        );
-
-        // Generate video elements
-        generateVideoElements();
     </script>
 </body>
 
