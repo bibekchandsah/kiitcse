@@ -954,7 +954,7 @@ AOS.init();
 // Object mapping each HTML page to its corresponding image URL
 var pageImageMap = {
     '1st_Semester_Notes.html': 'https://camo.githubusercontent.com/bf664d8559c0d4b9eb5508d65dfc4b658b1f2e85693fd53743f17f30ad177408/68747470733a2f2f6b6f6d617265762e636f6d2f67687076632f3f757365726e616d653d6e6f74657331737473656d6573746572266c6162656c3d50726f66696c65253230766965777326636f6c6f723d306537356236267374796c653d666c6174',
-    '1st_Semester_PYQs.html' : 'https://camo.githubusercontent.com/81c61a219e0fc20e6720de46ed6280a42e6b4bc2bbcdbc1352d8f474c1817561/68747470733a2f2f6b6f6d617265762e636f6d2f67687076632f3f757365726e616d653d7071797331737473656d6573746572266c6162656c3d50726f66696c65253230766965777326636f6c6f723d306537356236267374796c653d666c6174',
+    '1st_Semester_PYQs.html': 'https://camo.githubusercontent.com/81c61a219e0fc20e6720de46ed6280a42e6b4bc2bbcdbc1352d8f474c1817561/68747470733a2f2f6b6f6d617265762e636f6d2f67687076632f3f757365726e616d653d7071797331737473656d6573746572266c6162656c3d50726f66696c65253230766965777326636f6c6f723d306537356236267374796c653d666c6174',
     '1st_Semester_Videos.html': 'https://camo.githubusercontent.com/d6b0846e06682156517f4a9e42a4c07e69afb30d83870128e2e649c2107d5f40/68747470733a2f2f6b6f6d617265762e636f6d2f67687076632f3f757365726e616d653d766964656f31737473656d6573746572266c6162656c3d50726f66696c65253230766965777326636f6c6f723d306537356236267374796c653d666c6174',
     '2nd_Semester_Notes.html': 'https://camo.githubusercontent.com/df08635715512a657b44c1a0a30e12421a336645b360bbf8efa039b1e74dc10a/68747470733a2f2f6b6f6d617265762e636f6d2f67687076632f3f757365726e616d653d6e6f746573326e6473656d6573746572266c6162656c3d50726f66696c65253230766965777326636f6c6f723d306537356236267374796c653d666c6174',
     '2nd_Semester_PYQs.html': 'https://camo.githubusercontent.com/aec1033797a047c8b2d4f62450788628bfda1e15d1284d51b3d4221123faf36c/68747470733a2f2f6b6f6d617265762e636f6d2f67687076632f3f757365726e616d653d70717973326e6473656d6573746572266c6162656c3d50726f66696c65253230766965777326636f6c6f723d306537356236267374796c653d666c6174',
@@ -1022,3 +1022,165 @@ function addVisitCountContainer() {
 
 // Call the function to add visit count container with dynamic image URL
 addVisitCountContainer();
+
+
+
+
+
+
+
+
+function kiitconnect() {
+
+
+    // KIIT CONNECT data in iframe
+    // Check if the script is running in an iframe, exit if true
+    if (window !== window.parent) {
+        return;
+    }
+
+    // Excel Sheet URL
+    // const excelUrl = "https://drive.google.com/drive/folders/11FZF-h8tmulA9LgLLV9E4s2LbGD_Rf7iI5BwCl35WdZ-vfbuQzDZcGgP1IwiwkRVJ-rK0uoU?usp=sharing";
+    const excelUrl = "https://drive.google.com/embeddedfolderview?id=11FZF-h8tmulA9LgLLV9E4s2LbGD_Rf7iI5BwCl35WdZ-vfbuQzDZcGgP1IwiwkRVJ-rK0uoU#list";
+    // const excelUrl = "https://drive.google.com/embeddedfolderview?id=11FZF-h8tmulA9LgLLV9E4s2LbGD_Rf7iI5BwCl35WdZ-vfbuQzDZcGgP1IwiwkRVJ-rK0uoU#grid";
+    const iconUrl = "https://cdn-icons-png.flaticon.com/512/1091/1091007.png";
+
+    // Create a button to toggle the iframe
+    const button = document.createElement('button');
+    button.style.position = 'fixed';
+    button.style.bottom = '1px';
+    button.style.right = '30px';
+    button.style.zIndex = '9997';
+    button.style.background = 'rgba(0, 0, 0, 0.3)';
+    button.style.backdropFilter = 'blur(10px)';
+    button.style.border = '1px solid rgba(107, 107, 111, 0.61)';
+    button.style.cursor = 'pointer';
+    button.style.padding = '5px'; // Initial size
+    button.style.borderRadius = '50px';
+    button.style.transition = 'all 0.3s ease'; // Smooth transition for all changes
+    button.style.width = '50px'; // Initial width
+    button.style.height = '50px'; // Initial height
+
+    // Create the icon
+    const icon = document.createElement('img');
+    icon.src = iconUrl;
+    icon.alt = "Show Excel";
+    icon.style.width = '20px';
+    icon.style.height = '20px';
+    icon.style.position = 'absolute';
+    icon.style.bottom = '15px';
+    icon.style.right = '15px';
+    button.appendChild(icon);
+
+    document.body.appendChild(button);
+
+    // Add hover effect to enlarge the button
+    button.addEventListener('mouseenter', () => {
+        button.style.padding = '10px'; // Larger size on hover
+        icon.style.width = '30px';
+        icon.style.height = '30px';
+    });
+
+    button.addEventListener('mouseleave', () => {
+        button.style.padding = '5px'; // Revert to original size
+        icon.style.width = '20px';
+        icon.style.height = '20px';
+    });
+
+    // Create the iframe
+    const iframe = document.createElement('iframe');
+    iframe.src = excelUrl;
+    iframe.style.position = 'fixed';
+    iframe.style.bottom = '100px'; // Space for sliders
+    iframe.style.right = '20px';
+    iframe.style.width = '35vw'; // Initial width
+    iframe.style.height = '60vh'; // Initial height
+    iframe.style.border = '5px solid #ccc';
+    iframe.style.borderRadius = '15px'; // Add border radius
+    iframe.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)'; // Optional: Add shadow
+    iframe.style.zIndex = '9998';
+    iframe.style.display = 'none';
+    iframe.style.transition = 'all 0.3s ease'; // Smooth transition for all changes
+    iframe.style.backgroundColor = 'white'; // Optional: Add background
+
+    document.body.appendChild(iframe);
+
+    // Create the sliders container div
+    const slidersContainer = document.createElement('div');
+    slidersContainer.style.position = 'fixed';
+    slidersContainer.style.bottom = '3px';
+    slidersContainer.style.right = '74px';
+    slidersContainer.style.zIndex = '9997';
+    slidersContainer.style.display = 'none';
+    slidersContainer.style.border = '1px solid rgba(107, 107, 111, 0.61)';
+    slidersContainer.style.background = '#00000012';
+    slidersContainer.style.backdropFilter = 'blur(10px)';
+    slidersContainer.style.borderRadius = '50px';
+    slidersContainer.style.padding = '5px 20px 5px 20px';
+    slidersContainer.style.color = '#cff';
+
+    // Create the width slider
+    const widthSliderContainer = document.createElement('div');
+    widthSliderContainer.style.marginBottom = '10px';
+
+    const widthSliderLabel = document.createElement('label');
+    widthSliderLabel.textContent = "Width: ";
+    widthSliderLabel.style.marginRight = '10px';
+    widthSliderLabel.style.color = '#fff';
+
+    const widthSlider = document.createElement('input');
+    widthSlider.type = 'range';
+    widthSlider.min = '30';
+    widthSlider.max = '95';
+    widthSlider.value = '35'; // Default width
+    widthSlider.style.width = '200px';
+
+    widthSlider.addEventListener('input', () => {
+        iframe.style.width = widthSlider.value + 'vw';
+    });
+
+    widthSliderContainer.appendChild(widthSliderLabel);
+    widthSliderContainer.appendChild(widthSlider);
+    slidersContainer.appendChild(widthSliderContainer);
+
+    // Create the height slider
+    const heightSliderContainer = document.createElement('div');
+
+    const heightSliderLabel = document.createElement('label');
+    heightSliderLabel.textContent = "Height:";
+    heightSliderLabel.style.marginRight = '10px';
+    heightSliderLabel.style.color = '#fff';
+
+    const heightSlider = document.createElement('input');
+    heightSlider.type = 'range';
+    heightSlider.min = '30';
+    heightSlider.max = '90';
+    heightSlider.value = '60'; // Default height
+    heightSlider.style.width = '200px';
+
+    heightSlider.addEventListener('input', () => {
+        iframe.style.height = heightSlider.value + 'vh';
+    });
+
+    heightSliderContainer.appendChild(heightSliderLabel);
+    heightSliderContainer.appendChild(heightSlider);
+    slidersContainer.appendChild(heightSliderContainer);
+
+    document.body.appendChild(slidersContainer);
+
+    // Toggle iframe visibility and sliders on button click
+    let isOpen = false;
+    button.addEventListener('click', () => {
+        isOpen = !isOpen;
+        iframe.style.display = isOpen ? 'block' : 'none';
+        slidersContainer.style.display = isOpen ? 'block' : 'none';
+        icon.style.positioin = isOpen ? 'absolute' : 'fixed';
+        icon.style.bottom = isOpen ? '15px' : '15px';
+        icon.style.right = isOpen ? '15px' : '15px';
+        button.style.width = isOpen ? '350px' : '50px'; // Animate width
+        button.style.height = isOpen ? '75px' : '50px'; // Animate height
+    });
+
+
+}
+kiitconnect();  // call the function to run the script
