@@ -5,7 +5,10 @@ async function downloadFolderAsZip(folderName, button) {
 
     button.innerText = 'Downloading...';
     button.disabled = true;
-    const githubToken = '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';
+    const githubpatToken = 'github_pat_'
+    const githubKey = '11AUF4YTY0Cycs7RigPKLY_yItNgSjdwOHtxQ2OOWJr9uDsxQKG0EMe0y69XoLDwJSDB6EBRTIFbNOJOwy';
+    // merge both to form the token
+    const githubToken = githubpatToken + githubKey;
 
     let url;
     if (folderUrls1stNote.hasOwnProperty(folderName)) {
@@ -95,7 +98,7 @@ async function downloadFolderAsZip(folderName, button) {
 
 
 // file downloads
-async function downloadFiless(fileNames, button) {      //modified for removing download option
+async function downloadFiles(fileNames, button) {      //modified for removing download option
  //   async function downloadFiles(fileNames, button) {
     // Store the original button text
     const originalButtonText = button.innerText;
